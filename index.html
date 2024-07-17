@@ -28,44 +28,150 @@
       </div>
       <div class="topicselector">
         <div class="topic-back"></div>
-        <div class="topic-text">주제 입력</div>
+        <input type= "text" class="topic-text" placeholder="선호도를 조사할 영상의 주제 입력" id = "topic">
       </div>
       <div class="result">
         <div class="result-back"></div>
-        <div class="result-text">결과값</div>
+        <div class="result-text" id = "result">결과값</div>
       </div>
       <div class="ok-no">
-        <img class="ok-button-icon" alt="" src="./public/ok-button.svg" />
+        <img class="ok-button-icon" alt="" src="./public/ok-button.svg" id = "OKButton"/>
 
-        <div class="no-button">
+        <div class="no-button" id = "NOButton">
           <div class="no-button1"></div>
           <img class="frame-icon" alt="" src="./public/frame.svg" />
         </div>
       </div>
-      <div class="cal-button">
+      <div class="cal-button" id = "calculate">
         <div class="cal-back"></div>
         <div class="cal-text">계산하기</div>
       </div>
-      <div class="videocount">n번째 영상</div>
-      <div class="explainresult">sdasdasdasdsadawd</div>
+      <div class="videocount" id = "HowmanyVideo">1번째 영상</div>
+      <div class="explainresult" id = "Explain">주제 대기중</div>
       <div class="isvaildgroup">
         <div class="isvaild">선택한 주제의 영상인가?</div>
-        <img class="checkbox-icon" alt="" src="./public/checkbox.svg" />
+        <input type="checkbox" class="checkbox-icon" id = "my_checkbox"/>
       </div>
+
       <div class="status">
         <div class="ton">
           <div class="topic-on">주제O</div>
-          <div class="topic-on-yes-status">0번</div>
-          <div class="topic-on-no-status">0번</div>
+          <div class="topic-on-yes-status"id="On_OK">0번</div>
+          <div class="topic-on-no-status"id="On_NO">0번</div>
           <div class="ton-child"></div>
         </div>
         <div class="ton-off">
           <div class="topic-on">주제X</div>
-          <div class="topic-on-yes-status">0번</div>
-          <div class="topic-on-no-status">0번</div>
+          <div class="topic-on-yes-status"id="Off_OK">0번</div>
+          <div class="topic-on-no-status"id="Off_NO">0번</div>
           <div class="ton-child"></div>
         </div>
       </div>
+
+
     </div>
   </body>
+  <script>
+    var HowManyVideo = 1;
+    var checkbox = document.getElementById('my_checkbox');
+    var okbutton = document.getElementById('OKButton');
+    var nobutton = document.getElementById('NOButton');
+    var HowManyVideo_text = document.getElementById('HowmanyVideo');
+    var calculateButton = document.getElementById('calculate');
+    var explain = document.getElementById('Explain');
+    var topic = document.getElementById('topic');
+    var result = document.getElementById('result');
+
+    var GoodAndWant = 0
+    var GoodAndNotWant = 0
+    var BadAndWant = 0
+    var BadAndNotWant = 0
+
+
+    var On_OK = document.getElementById('On_OK');
+    var On_NO = document.getElementById('On_NO');
+    var Off_OK = document.getElementById('Off_OK');
+    var Off_NO = document.getElementById('Off_NO');
+
+    if (okbutton)
+    {
+      okbutton.addEventListener("click", function()
+      {
+        console.log("버튼 눌림");
+        if (checkbox.checked)
+        {
+          GoodAndWant++;
+          On_OK.innerText = GoodAndWant+"번"
+          console.log(GoodAndWant);
+
+        }
+        else
+        {
+          GoodAndNotWant++;
+          Off_OK.innerText = GoodAndNotWant+"번"
+          console.log(GoodAndNotWant);
+        }
+        HowManyVideo++;
+        HowManyVideo_text.innerText = HowManyVideo + "번째 영상";
+      }
+      )
+    }
+
+
+    if (nobutton)
+    {
+      nobutton.addEventListener("click", function()
+      {
+        console.log("버튼 눌림");
+        if (checkbox.checked)
+        {
+          BadAndWant++;
+          On_NO.innerText = BadAndWant+"번"
+          console.log(BadAndWant);
+
+        }
+        else
+        {
+          BadAndNotWant++;
+          Off_NO.innerText = BadAndNotWant + "번"
+          console.log(BadAndNotWant);
+        }
+        HowManyVideo++;
+        HowManyVideo_text.innerText = HowManyVideo + "번째 영상";
+      }
+      )
+    }
+
+    if (calculateButton)
+    {
+      calculateButton.addEventListener("click", function()
+      {
+        explain.innerText = topic.value + "의 주제를 가진 영상을 좋아할 확률"
+        result.innerText = (GoodAndWant / (GoodAndWant + BadAndWant) * 100) + "%";
+        GoodAndWant  = 0;
+        GoodAndNotWant  = 0;
+        BadAndWant  = 0;
+        BadAndNotWant = 0;
+        HowManyVideo = 1;
+
+        Off_OK.innerText = BadAndWant+"번"
+        Off_NO.innerText = BadAndNotWant+"번"
+        On_OK.innerText = GoodAndWant+"번"
+        On_NO.innerText = GoodAndNotWant+"번"
+
+
+        console.log(BadAndWant);
+        HowManyVideo_text.innerText = HowManyVideo + "번째 영상";
+      }
+      )
+    }
+
+    function MixedCalculater (GoodAndWant, GoodAndNotWant, BadAndWant, BadAndNotWant)
+    {
+      result = GoodAndWant / (GoodAndWant + BadAndWant) * 100;
+      return result;
+    }
+
+
+  </script>
 </html>
